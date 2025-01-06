@@ -20,14 +20,17 @@ right_pad = Paddle(RIGHT_POS)
 
 ball = Ball()
 score = Score()
+sleep_time = 0.04
 
 screen.onkeypress(left_pad.up, "w")
 screen.onkeypress(left_pad.down, "s")
 screen.onkeypress(right_pad.up, "Up")
 screen.onkeypress(right_pad.down, "Down")
 
-while True:
-    time.sleep(0.04)
+game_on = True
+
+while game_on:
+    time.sleep(ball.ball_speed)
     screen.update()
     ball.move()
 
@@ -42,12 +45,17 @@ while True:
         ball.bounce_x()
     elif ball.xcor() > 420:
         print("pass right")
-        score.left_score += 1
+        score.increment_left()
         score.count_score()
-        break
+        ball.respawn_ball()
+        sleep_time = 0.04
     elif ball.xcor() < -420:
         print("pass left")
-        score.right_score += 1
-        score.count_score()
-        break
+        score.increment_right()
+        ball.respawn_ball()
+        sleep_time = 0.04
+
+    if not score.check_score():
+        game_on = False
+
 screen.exitonclick()
