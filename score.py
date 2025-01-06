@@ -22,3 +22,18 @@ class Score(Turtle):
             align=Score.ALIGN,
             font=Score.FONT,
         )
+
+    def increment_left(self):
+        self.left_score += 1
+        self.count_score()
+
+    def increment_right(self):
+        self.right_score += 1
+        self.count_score()
+
+    def check_score(self):
+        if self.left_score == 10 or self.right_score == 10:
+            self.goto(0, 0)
+            self.write("Game Over", align=Score.ALIGN, font=Score.FONT)
+            return False
+        return True
